@@ -16,4 +16,18 @@
  */
 class sfDomFeed extends DOMDocument
 {
+
+    public function __construct($feed_array=null;$version='1.0',$encoding='UTF-8')
+    {
+        parent::__construct($version,$encoding);
+        if($feed_array)
+        {
+            $this->initialize($feed_array);
+        }
+    }
+
+    public function initialize($feed_array)
+    {
+    }
+
 }
