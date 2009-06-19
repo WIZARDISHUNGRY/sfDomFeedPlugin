@@ -2,6 +2,7 @@
 
 include(dirname(__FILE__).'/../../../../test/bootstrap/unit.php');
 require_once(dirname(__FILE__).'/../../lib/sfDomFeed.class.php');
+require_once(dirname(__FILE__).'/../../lib/sfRssDomFeed.class.php');
 
 $t = new lime_test(0, new lime_output_color());
 
@@ -19,5 +20,5 @@ $feed_params = array(
   'encoding' => 'UTF-16',
 );
 
-$feed=new sfDomFeed();
+$feed=new sfRssDomFeed();
 $feed->initialize($feed_params);
