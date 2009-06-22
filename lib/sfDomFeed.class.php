@@ -35,6 +35,7 @@ abstract class sfDomFeed extends DOMDocument
 
     public function initialize($feed_array)
     {
+        return $this;
     }
     
     protected function getFamilyTemplatePath()
