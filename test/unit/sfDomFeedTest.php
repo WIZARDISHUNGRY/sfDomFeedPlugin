@@ -5,7 +5,7 @@ require_once(dirname(__FILE__).'/../bootstrap/unit.php');
 require_once(dirname(__FILE__).'/../../lib/sfDomFeed.class.php');
 require_once(dirname(__FILE__).'/../../lib/sfRssDomFeed.class.php');
 
-$t = new lime_test(1, new lime_output_color());
+$t = new lime_test(2, new lime_output_color());
 
 $feed_params = array(
   'title' => 'foo', 
@@ -23,3 +23,4 @@ $feed_params = array(
 
 $feed=new sfRssDomFeed();
 $t->isa_ok($feed->initialize($feed_params), 'sfRssDomFeed', 'initialize() returns the current feed object');
+$t->isa_ok($feed->toXml(), 'string', 'toXML() outputs a string');

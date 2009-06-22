@@ -16,8 +16,6 @@
  */
 class sfRssDomFeed extends sfDomFeed 
 {
-    public function getFamily()
-    {
-        return 'rss';
-    }
+    protected $family='rss';
+    protected $xpath_item='//rss/channel/item';
 }
