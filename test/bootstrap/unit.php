@@ -1,11 +1,11 @@
 <?php
 
-if (!isset($_SERVER['SYMFONY']))
-{
-  throw new RuntimeException('Could not find symfony core libraries.');
-}
+require_once(dirname(__FILE__).'/../../../../test/bootstrap/unit.php');
+echo dirname(__FILE__).'/../../../../test/bootstrap/unit.php',"\n",
+    realpath(dirname(__FILE__).'/../../../../test/bootstrap/unit.php'),"\n";
 
-require_once $_SERVER['SYMFONY'].'/autoload/sfCoreAutoload.class.php';
+// horrible hardcoding of relative symfony path fixme
+require_once  dirname(__FILE__).'/../../../../lib/vendor/symfony/lib/autoload/sfCoreAutoload.class.php';
 sfCoreAutoload::register();
 
 $configuration = new sfProjectConfiguration(getcwd());

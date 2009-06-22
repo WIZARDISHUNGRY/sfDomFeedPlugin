@@ -1,6 +1,7 @@
 <?php
 
-include(dirname(__FILE__).'/../../../../test/bootstrap/unit.php');
+require_once(dirname(__FILE__).'/../bootstrap/unit.php');
+
 require_once(dirname(__FILE__).'/../../lib/sfDomFeed.class.php');
 require_once(dirname(__FILE__).'/../../lib/sfRssDomFeed.class.php');
 
