@@ -90,6 +90,7 @@ abstract class sfDomFeed extends sfDomStorage
         foreach($this->feed_items as $feed_item)
         {
             $node = $template_item_node->cloneNode(TRUE);
+            $feed_item->decorate($node);
             $items_parent->appendChild($node);
         }
 

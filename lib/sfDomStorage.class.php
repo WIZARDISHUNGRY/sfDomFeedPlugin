@@ -39,4 +39,21 @@ class sfDomStorage
         return $this;
     }
 
+    public function decorate(DOMNode $node)
+    {
+        for ($i = 0; $i < $node->childNodes->length; $i++)
+        {
+            $child=$node->childNodes->item($i);
+            $key=strtolower($child->nodeName);
+            if(array_key_exists($key,$this->storage)) // register mapping stuff here todo
+            {
+                while($child->hasChildNodes())
+                    $child->removeChild($child->childNodes->item(0));
+
+                $child->appendChild($dom->createTextNode($this->storage[$key]));
+                // should be a way of doing this for other stuff todo
+            }
+        }
+       return $node;
+    }
  }
