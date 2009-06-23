@@ -22,7 +22,8 @@ abstract class sfDomFeed
     protected $feed_item;
     protected $family; // e.g. RSS or Atom
     protected $xpath_item; // XPath expression for feed item
-    protected $template_feed_item; // DOMNode template of post 
+    protected $xpath_channel; // for the root channel
+    protected $template_feed_item; // DOMNode template of post
 
     public function __construct($feed_array=null,$version='1.0',$encoding='UTF-8')
     {
@@ -62,6 +63,13 @@ abstract class sfDomFeed
     {
         return $this->dom->saveXML();
     }
+
+    public function fromXml($string)
+    {
+        throw new sfDomFeedException('Not implemented');
+    }
+
+    // protected methods
     
     protected function getFamilyTemplatePath()
     {
