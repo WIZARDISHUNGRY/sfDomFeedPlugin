@@ -14,7 +14,7 @@
  * @package    sfDomFeed
  * @author     Jon Williams <jwilliams@limewire.com>
  */
-abstract class sfDomFeed
+abstract class sfDomFeed extends sfDomStorage
 {
 
     protected $dom; // DOMDocument
@@ -69,13 +69,6 @@ abstract class sfDomFeed
         }
     }
 
-    public function initialize($feed_array)
-    {
-        foreach($feed_array as $k=>$v)
-            $this->storage[strtolower($k)]=$v;
-        return $this;
-    }
-
     // simple methods to preserve compat with sfFeed2Plugin
 
     public function toXml()
@@ -113,7 +106,13 @@ abstract class sfDomFeed
                 $node->appendChild($dom->createTextNode($this->storage[$key])); // should be a way of doing this for other stuff todo
             }
         }
+
+        foreach($this->storage as $feed_item)
+        {
+            $node = $this->template_feed_item->cloneNode(TRUE);
+            $channel->appendChild($node);
+        }
+
         return $dom;
     }
-
 }
