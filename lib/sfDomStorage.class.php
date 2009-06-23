@@ -41,6 +41,7 @@ class sfDomStorage
 
     public function decorate(DOMNode $node)
     {
+        $dom=$node->ownerDocument;
         for ($i = 0; $i < $node->childNodes->length; $i++)
         {
             $child=$node->childNodes->item($i);
