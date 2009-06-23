@@ -14,9 +14,10 @@
  * @package    sfDomFeed
  * @author     Jon Williams <jwilliams@limewire.com>
  */
-abstract class sfDomFeed extends DOMDocument
+abstract class sfDomFeed
 {
 
+    protected $dom; // DOMDocument
     protected $plugin_path;
     protected $feed_item;
     protected $family; // e.g. RSS or Atom
@@ -25,7 +26,7 @@ abstract class sfDomFeed extends DOMDocument
 
     public function __construct($feed_array=null,$version='1.0',$encoding='UTF-8')
     {
-        parent::__construct($version,$encoding);
+        $dom=$this->dom=new DOMDocument($version,$encoding);
         $this->context=sfContext::getInstance();
         $this->plugin_path=realpath(dirname(__FILE__).'/../');
 
@@ -34,17 +35,17 @@ abstract class sfDomFeed extends DOMDocument
             $this->initialize($feed_array);
         }
 
-        if(! $this->load($this->getFamilyTemplatePath(),LIBXML_NOERROR))
+        if(! $dom->load($this->getFamilyTemplatePath(),LIBXML_NOERROR))
             throw new sfDomFeedException("DOMDocument::load failed");
 
-        $xp=new DOMXPath($this);
+        $xp=new DOMXPath($dom);
         $items = $xp->query($this->xpath_item);
 
         if(count($items)!=1)
             throw new sfDomFeedException('XPath query of '.$this->family.
                 ' template for feed item got an unexpected (!1) number of feed items: '.count($items));
 
-        $item=$items[0];
+        $item=$items->item(0);
         $item->parentNode->removeChild($item);
 
         $this->template_feed_item=$item;
@@ -55,12 +56,11 @@ abstract class sfDomFeed extends DOMDocument
         return $this;
     }
 
-
     // simple methods to preserve compat with sfFeed2Plugin
 
     public function toXml()
     {
-        return $this->saveXML();
+        return $this->dom->saveXML();
     }
     
     protected function getFamilyTemplatePath()
