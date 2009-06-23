@@ -80,7 +80,8 @@ abstract class sfDomFeed
 
     public function toXml()
     {
-        return $this->dom->saveXML();
+        $dom=$this->dom->cloneNode(TRUE); // may be expensive
+        return $this->decorateDom($dom)->saveXML();
     }
 
     public function fromXml($string)
@@ -93,6 +94,26 @@ abstract class sfDomFeed
     protected function getFamilyTemplatePath()
     {
         return $this->plugin_path."/data/templates/".$this->family.'.xml'; // todo make name more canonical with a prefix "root-rss"
+    }
+
+    protected function decorateDom(DOMDocument $dom)
+    {
+        $xp=new DOMXPath($dom);
+        $channel = $xp->query($this->xpath_channel);
+        $channel = $channel->item(0);
+        for ($i = 0; $i < $channel->childNodes->length; $i++)
+        {
+            $node=$channel->childNodes->item($i);
+            $key=strtolower($node->nodeName);
+            if(array_key_exists($key,$this->storage)) // register mapping stuff here todo
+            {
+                while($node->hasChildNodes())
+                    $node->removeChild($node->childNodes->item(0));
+
+                $node->appendChild($dom->createTextNode($this->storage[$key])); // should be a way of doing this for other stuff todo
+            }
+        }
+        return $dom;
     }
 
 }
