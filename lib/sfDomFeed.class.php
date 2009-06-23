@@ -24,6 +24,7 @@ abstract class sfDomFeed
     protected $xpath_item; // XPath expression for feed item
     protected $xpath_channel; // for the root channel
     protected $template_feed_item; // DOMNode template of post
+    protected $storage = array(); // generic datastore
 
     public function __construct($feed_array=null,$version='1.0',$encoding='UTF-8')
     {
@@ -52,8 +53,26 @@ abstract class sfDomFeed
         $this->template_feed_item=$item;
     }
 
+    // get and set  todo move into behavior
+
+    public function __call($name, $arguments)
+    {
+        if(strstr($name,'get')===0)
+        {
+            $key=strtolower(preg_replace('/^get/','',$name,1));
+            return $this->storage[$key]; //todo allow backfetching
+        }
+        elseif(strstr($name,'set')===0 && array_key_exists(0,$arguments))
+        {
+            $key=strtolower(preg_replace('/^set/','',$name,1));
+            $this->storage[$key]=$arguments[0];
+        }
+    }
+
     public function initialize($feed_array)
     {
+        foreach($feed_array as $k=>$v)
+            $this->storage[strtolower($k)]=$v;
         return $this;
     }
 
