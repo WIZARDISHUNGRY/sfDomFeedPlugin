@@ -64,18 +64,7 @@ abstract class sfDomFeed extends sfDomStorage
         $xp=new DOMXPath($dom);
         $channel = $xp->query($this->xpath_channel);
         $channel = $channel->item(0);
-        for ($i = 0; $i < $channel->childNodes->length; $i++)
-        {
-            $node=$channel->childNodes->item($i);
-            $key=strtolower($node->nodeName);
-            if(array_key_exists($key,$this->storage)) // register mapping stuff here todo
-            {
-                while($node->hasChildNodes())
-                    $node->removeChild($node->childNodes->item(0));
-
-                $node->appendChild($dom->createTextNode($this->storage[$key])); // should be a way of doing this for other stuff todo
-            }
-        }
+        $this->decorate($channel);
 
         $item_nodes = $xp->query($this->xpath_item);
 
