@@ -16,19 +16,29 @@
  */
 class sfDomStorage
 {
-    protected $storage = array(); // generic datastore
+    protected $storage; // sfParameterHolder, generic datastore
+
+    public function __construct()
+    {
+        $this->storage=new sfParameterHolder();
+    }
 
     public function __call($name, $arguments)
     {
         if(strstr($name,'get')===0)
         {
             $key=strtolower(preg_replace('/^get/','',$name,1));
-            return $this->storage[$key]; //todo allow backfetching
+            return $this->storage->get($key); //todo allow backfetching?
         }
         elseif(strstr($name,'set')===0 && array_key_exists(0,$arguments))
         {
             $key=strtolower(preg_replace('/^set/','',$name,1));
-            $this->storage[$key]=$arguments[0];
+            $this->storage->set($key,$arguments[0]);
+        }
+        elseif(strstr($name,'has')===0)
+        {
+            $key=strtolower(preg_replace('/^has/','',$name,1));
+            return $this->storage->has($key);
         }
     }
 
