@@ -19,6 +19,11 @@ $feed_params = array(
   'categories' => array('foo', 'bar'),
   'feedUrl' => 'http://www.example.com',
   'encoding' => 'UTF-16',
+  'feed_items' => Array(new sfDomFeedItem(null,Array
+    (
+        'link'=>'http://wowthisworks.example.com/',
+    )
+  )),
 );
 
 $feed=new sfRssDomFeed();

@@ -18,9 +18,12 @@ class sfDomStorage
 {
     protected $storage; // sfParameterHolder, generic datastore
 
-    function __construct($object=null)
+    function __construct($object=null,$data_array=array())
     {
+        // semantically which should happen first here?
+        // perhaps we should test $storage to see if any of these are overriding it
         $this->storage=new sfProxyParameterHolder($object);
+        $this->initialize($data_array);
     }
 
     public function __call($name, $arguments)

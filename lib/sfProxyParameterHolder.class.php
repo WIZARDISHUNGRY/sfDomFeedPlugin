@@ -49,7 +49,7 @@ class sfProxyParameterHolder extends sfParameterHolder
         if(!$this->isWrapped()) return null;
         $function_name=sfInflector::camelize(($set?'set_':'get_').$name); // todo work with Doctrine style gets/sets
         $cb=Array($this->wrapped_object,$function_name);
-        if(method_exists($cb))
+        if(is_callable($cb))
             return $cb;
         else
             return null;

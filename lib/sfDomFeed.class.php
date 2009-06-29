@@ -24,9 +24,9 @@ abstract class sfDomFeed extends sfDomStorage
     protected $xpath_item; // XPath expression for feed item
     protected $xpath_channel; // for the root channel
 
-    public function __construct($feed_array=null,$version='1.0',$encoding='UTF-8')
+    public function __construct($feed_array=array(),$version='1.0',$encoding='UTF-8')
     {
-        parent::__construct();
+        parent::__construct(); /// we call initialize() later so we don't need to pass feed_array in yet
         $dom=$this->dom=new DOMDocument($version,$encoding);
         $this->context=sfContext::getInstance();
         $this->plugin_path=realpath(dirname(__FILE__).'/../');
@@ -38,6 +38,17 @@ abstract class sfDomFeed extends sfDomStorage
 
         if(! $dom->load($this->getFamilyTemplatePath(),LIBXML_NOERROR))
             throw new sfDomFeedException("DOMDocument::load failed");
+    }
+
+    public function initialize($data_array)
+    {
+        // special cases -- should be refactored to elsewhere?
+        if(array_key_exists('feed_items',$data_array))
+        {
+            $this->feed_items=$data_array['feed_items'];
+            unset($data_array['feed_items']);
+        }
+        return parent::initialize($data_array);
     }
 
     // simple methods to preserve compat with sfFeed2Plugin
