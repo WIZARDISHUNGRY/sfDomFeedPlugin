@@ -20,7 +20,7 @@ class sfDomStorage
 
     public function __construct()
     {
-        $this->storage=new sfParameterHolder();
+        $this->storage=new sfProxyParameterHolder();
     }
 
     public function __call($name, $arguments)
