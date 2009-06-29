@@ -30,7 +30,7 @@ class sfProxyParameterHolder extends sfParameterHolder
         $val = $this->proxy_get($name);
         if($val!==NULL) // FALSE errors will return here -- see proxy_get()
             return $val;
-        parent::get($name,$default);
+        return parent::get($name,$default);
     }
 
     public function set($name, $value)

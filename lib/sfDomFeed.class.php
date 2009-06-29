@@ -44,7 +44,7 @@ abstract class sfDomFeed extends sfDomStorage
 
     public function toXml()
     {
-        $dom=$this->dom->cloneNode(TRUE); // may be expensive
+        $dom=$this->dom->cloneNode(TRUE); // may be expensive to do a deep clone
         return $this->decorateDom($dom)->saveXML();
     }
 
