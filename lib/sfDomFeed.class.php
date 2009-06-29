@@ -26,7 +26,7 @@ abstract class sfDomFeed extends sfDomStorage
 
     public function __construct($feed_array=null,$version='1.0',$encoding='UTF-8')
     {
-        parent::_construct();
+        parent::__construct();
         $dom=$this->dom=new DOMDocument($version,$encoding);
         $this->context=sfContext::getInstance();
         $this->plugin_path=realpath(dirname(__FILE__).'/../');

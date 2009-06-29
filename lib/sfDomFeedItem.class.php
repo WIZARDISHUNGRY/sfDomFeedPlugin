@@ -17,9 +17,9 @@
 class sfDomFeedItem extends sfDomStorage
 {
     protected $wrapped_object=null;
-    public function __construct($object=null)
+    function __construct($object=null)
     {
-        parent::_construct();
+        parent::__construct($object);
         if(!is_null($object)
         {
             $this->wrapped_object=$object;

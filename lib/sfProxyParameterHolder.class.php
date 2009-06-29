@@ -19,14 +19,15 @@
  */
 class sfProxyParameterHolder extends sfParameterHolder
 {
+    protected $wrapped_object;
     public function __construct($object=null)
     {
         $this->wrapped_object=$object;
     }
 
-    public function get($name,$default=null)
+    public function & get($name,$default=null)
     {
-        $val = proxy_get($name);
+        $val = $this->proxy_get($name);
         if($val!==NULL) // FALSE errors will return here -- see proxy_get()
             return $val;
         parent::get($name,$default);
@@ -68,7 +69,7 @@ class sfProxyParameterHolder extends sfParameterHolder
     }
 
 
-    protected function proxy_get($name)
+    protected function & proxy_get($name)
     {
         $callback=$this->proxy_has($name);
         if($callback)

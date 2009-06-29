@@ -18,9 +18,9 @@ class sfDomStorage
 {
     protected $storage; // sfParameterHolder, generic datastore
 
-    public function __construct()
+    function __construct($object=null)
     {
-        $this->storage=new sfProxyParameterHolder();
+        $this->storage=new sfProxyParameterHolder($object);
     }
 
     public function __call($name, $arguments)
@@ -44,8 +44,7 @@ class sfDomStorage
 
     public function initialize($data_array)
     {
-        foreach($data_array as $k=>$v)
-            $this->storage[strtolower($k)]=$v;
+        $this->storage->add($data_array);
         return $this;
     }
 
@@ -61,7 +60,7 @@ class sfDomStorage
                 while($child->hasChildNodes())
                     $child->removeChild($child->childNodes->item(0));
 
-                $child->appendChild($dom->createTextNode($this->storage[$key]));
+                $child->appendChild($dom->createTextNode($this->storage->get($key)));
                 // should be a way of doing this for other stuff todo
             }
         }
