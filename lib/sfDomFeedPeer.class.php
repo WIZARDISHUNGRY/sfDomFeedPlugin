@@ -16,4 +16,16 @@
  */
 class sfDomFeedPeer
 {
+    /**
+    * Populates a feed with items based on objects.
+    * Inspects the available methods of the objects to populate items properties.
+    */
+    public static function convertObjectsToItems($objects, $options = array())
+    {
+        $items = array();
+        foreach($objects as $object)
+        {
+            $item = new sfDomFeedItem($object);
+        }
+    }
 }
