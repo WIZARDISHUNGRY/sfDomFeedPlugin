@@ -56,7 +56,7 @@ class sfDomStorage
         {
             $child=$node->childNodes->item($i);
             $key=strtolower($child->nodeName);
-            if(array_key_exists($key,$this->storage)) // register mapping stuff here todo
+            if($this->storage->has($key)) // register mapping stuff here todo
             {
                 while($child->hasChildNodes())
                     $child->removeChild($child->childNodes->item(0));
