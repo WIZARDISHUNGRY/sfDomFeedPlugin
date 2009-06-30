@@ -68,7 +68,7 @@ abstract class sfDomFeed extends sfDomStorage
 
     // protected methods
     
-    protected function getFamilyTemplatePath()
+    protected function getFamilyTemplatePath() // todo not have a get/set name?
     {
         return $this->plugin_path."/data/templates/".$this->family.'.xml'; // todo make name more canonical with a prefix "root-rss"
     }
