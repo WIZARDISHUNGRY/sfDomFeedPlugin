@@ -78,7 +78,7 @@ abstract class sfDomFeed extends sfDomStorage
         $xp=new DOMXPath($dom);
         $channel = $xp->query($this->xpath_channel);
         $channel = $channel->item(0);
-        $this->decorate($channel);
+        $this->decorate($channel,$this->decorate_rules['feed']);
 
         $item_nodes = $xp->query($this->xpath_item);
 
@@ -93,7 +93,7 @@ abstract class sfDomFeed extends sfDomStorage
         foreach($this->feed_items as $feed_item)
         {
             $node = $template_item_node->cloneNode(TRUE);
-            $feed_item->decorate($node);
+            $feed_item->decorate($node,$this->decorate_rules['item']);  // todo: parsing this once per item is SLOW 
             $items_parent->appendChild($node);
         }
 

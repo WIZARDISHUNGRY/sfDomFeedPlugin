@@ -77,14 +77,18 @@ class sfDomStorage
                 $rule_node=$nodes->item($i);
                 if(is_array($rule))
                 {
-
+                    // rule is a callback array -- first argument has a few special values; see parseCallback();
                     $value=call_user_func_array($this->parseCallback($rule),Array(&$rule_node));
-                    // callback takes the node to be decorated byRef so we can decorate in the callback if we need to.
+                    // callback takes the node to be decorated byRef so we decorate in the callback
+                    if($value)
+                    {
+                        $rule_node->nodeValue=$value;
+                    }
                 }
                 else
                 {
-                    // literal
-                    $value=$rule;
+                    // rule is a string literal
+                    $rule_node->nodeValue=$rule;
                 }
             }
         }
@@ -94,42 +98,60 @@ class sfDomStorage
 
     protected function parseCallback($rule)
     {
-        list($object,$method)=$rule;
-        if(is_string($object))
+        if(count($rule)==2)
         {
-            switch($object)
+            list($object,$method)=$rule;
+            if(is_string($object)&&$method)
             {
-                case 'item':
-                    $object=$this;
-                    break;
-                case 'feed':
-                    $object=$this; // THIS SHOULD BE A REFERENCE TO THE PARENT FEED OBJECT FIXME
-                    break;
-                default:
-                    throw new sfDomFeedException("callback-style DOM rule has an unknown named object -- "
-                        ."$xpath_expr => $object->$method()");
-                    break;
+                switch($object)
+                {
+                    case 'item':
+                        $object=$this;
+                        break;
+                    case 'feed':
+                        $object=$this; // THIS SHOULD BE A REFERENCE TO THE PARENT FEED OBJECT FIXME
+                        break;
+                    default:
+                        throw new sfDomFeedException("callback-style DOM rule has an unknown named object -- "
+                            ."$xpath_expr => $object->$method()");
+                        break;
+                }
+            }
+
+            if(!is_object($object))
+            {
+                throw new sfDomFeedException("DOM rule object is not an object -- "
+                    ."$xpath_expr => " . gettype($object) );
+            }
+
+            if(!is_string($method))
+            {
+                throw new sfDomFeedException("DOM rule method is not a string -- "
+                    ."$xpath_expr => $object->$method()");
+            }
+
+            $cb = Array($object,$method);
+        }
+        elseif(count($rule)==1)
+        {
+            // simple function-- via create_function -- this is really slow to do for every node fixme
+            $cb=create_function('$node',$rule[0]);
+            if($cb===FALSE)
+            {
+                throw new sfDomFeedException("DOM rule lambda compilation failed -- "
+                    ."$xpath_expr => \n".$rule[0]);
             }
         }
-
-        if(!is_object($object))
+        else
         {
-            throw new sfDomFeedException("DOM rule object is not an object -- "
-                ."$xpath_expr => " . gettype($object) );
+            $size=count($rule);
+            throw new sfDomFeedException("DOM rule callback structure had unexpected size -- $xpath_expr => ($size)");
         }
-
-        if(!is_string($method))
-        {
-            throw new sfDomFeedException("DOM rule method is not a string -- "
-                ."$xpath_expr => $object->$method()");
-        }
-
-        $cb = Array($object,$method);
 
         if(!is_callable($cb))
         {
             throw new sfDomFeedException("DOM rule callback is not callable -- "
-                ."$xpath_expr => $object->$method()");
+                ."$xpath_expr => ".(count($rule)==2?"$object->$method()":"$cb()"));
         }
 
         return $cb;

@@ -22,8 +22,12 @@ class sfRssDomFeed extends sfDomFeed
     protected $decorate_rules = Array(
         'feed' => Array(
             '/rss/attribute::version'  => "2.0",
+            '/rss/channel/lastBuildDate'  =>
+                Array('$d=new DateTime();return $d->format(DATE_RSS);'), // can't use create function in this context! yay!
+                    // also obv should be able to set a object serialization functions (but not here)
         ),
         'item' => Array(
+           // '::isPermalink' => 
         ),
     );
 }
