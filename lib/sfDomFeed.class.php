@@ -23,6 +23,8 @@ abstract class sfDomFeed extends sfDomStorage
     protected $family; // e.g. RSS or Atom
     protected $xpath_item; // XPath expression for feed item
     protected $xpath_channel; // for the root channel
+    protected $decorate_rules = Array( // feed is global; item is foreach item
+        'feed'=>Array(),'item'=>Array()); // xpath query=>transform (string or array-callback)
 
     public function __construct($feed_array=array(),$version='1.0',$encoding='UTF-8')
     {

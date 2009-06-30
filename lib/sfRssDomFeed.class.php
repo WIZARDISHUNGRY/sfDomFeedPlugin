@@ -19,4 +19,11 @@ class sfRssDomFeed extends sfDomFeed
     protected $family='rss';
     protected $xpath_item='/rss/channel/item';
     protected $xpath_channel='/rss/channel[1]';
+    protected $decorate_rules = Array(
+        'feed' => Array(
+            '/rss/attribute::version'  => "2.0",
+        ),
+        'item' => Array(
+        ),
+    );
 }

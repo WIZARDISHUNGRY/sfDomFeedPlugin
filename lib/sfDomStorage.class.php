@@ -51,9 +51,10 @@ class sfDomStorage
         return $this;
     }
 
-    public function decorate(DOMNode $node)
+    public function decorate(DOMNode $node,$rules=Array())
     {
         $dom=$node->ownerDocument;
+        $xp=new DOMXPath($dom);
         for ($i = 0; $i < $node->childNodes->length; $i++)
         {
             $child=$node->childNodes->item($i);
@@ -67,6 +68,65 @@ class sfDomStorage
                 // should be a way of doing this for other stuff todo
             }
         }
-       return $node;
+        
+        foreach($rules as $xpath_expr => $rule)
+        {
+            $nodes = $xp->query($xpath_expr);
+            for($i = 0; $i < $nodes->length; $i++)
+            {
+                $rule_node=$nodes->item($i);
+                if(is_array($rule))
+                {
+                    list($object,$method)=$rule;
+                    if(is_string($object))
+                    {
+                        switch($object)
+                        {
+                            case 'item':
+                                $object=$this;
+                                break;
+                            case 'feed':
+                                $object=$this; // THIS SHOULD BE A REFERENCE TO THE PARENT FEED OBJECT FIXME
+                                break;
+                            default:
+                                throw new sfDomFeedException("callback-style DOM rule has an unknown named object -- "
+                                    ."$xpath_expr => $object->$method()");
+                                break;
+                        }
+                    }
+
+                    if(!is_object($object))
+                    {
+                        throw new sfDomFeedException("DOM rule object is not an object -- "
+                            ."$xpath_expr => " . gettype($object) );
+                    }
+
+                    if(!is_string($method))
+                    {
+                        throw new sfDomFeedException("DOM rule method is not a string -- "
+                            ."$xpath_expr => $object->$method()");
+                    }
+
+                    $cb = Array($object,$method);
+
+                    if(!is_callable($cb))
+                    {
+                        throw new sfDomFeedException("DOM rule callback is not callable -- "
+                            ."$xpath_expr => $object->$method()");
+                    }
+
+                    $value=call_user_func_array($cb,Array(&$rule_node));
+                    // callback takes the node to be decorated byRef so we can decorate in the function if we need to.
+                }
+                else
+                {
+                    // literal
+                    $value=$rule;
+                }
+            }
+        }
+
+        return $node;
     }
+
  }
