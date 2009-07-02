@@ -14,11 +14,11 @@
  * @package    sfDomStorage
  * @author     Jon Williams <jwilliams@limewire.com>
  */
-class sfDomStorage
+abstract class sfDomStorage
 {
     protected $storage; // sfParameterHolder, generic datastore
 
-    function __construct($object=null,$data_array=array())
+    public function __construct($object=null,$data_array=array())
     {
         // semantically which should happen first here?
         // perhaps we should test $storage to see if any of these are overriding it
