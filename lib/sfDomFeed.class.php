@@ -38,7 +38,7 @@ abstract class sfDomFeed extends sfDomStorage
             $this->initialize($feed_array);
         }
 
-        if(! $dom->load($this->genFamilyTemplatePath(),LIBXML_NOERROR))
+        if(! $dom->load($this->genTemplatePath(),LIBXML_NOERROR))
             throw new sfDomFeedException("DOMDocument::load failed");
     }
 

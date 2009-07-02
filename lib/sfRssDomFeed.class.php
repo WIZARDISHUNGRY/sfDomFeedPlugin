@@ -18,8 +18,6 @@ class sfRssDomFeed extends sfDomFeed
 {
     public function __construct($feed_array=array(),$version='1.0',$encoding='UTF-8')
     {
-        parent::__construct($feed_array=array(),$version='1.0',$encoding='UTF-8');
-
         $this->family='rss';
         $this->xpath_item='/rss/channel/item';
         $this->xpath_channel='/rss/channel[1]';
@@ -34,5 +32,6 @@ class sfRssDomFeed extends sfDomFeed
             // '::isPermalink' => 
             ),
         );
+        parent::__construct($feed_array=array(),$version='1.0',$encoding='UTF-8');
     }
 }
