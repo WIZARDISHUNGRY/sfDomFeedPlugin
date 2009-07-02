@@ -16,18 +16,23 @@
  */
 class sfRssDomFeed extends sfDomFeed 
 {
-    protected $family='rss';
-    protected $xpath_item='/rss/channel/item';
-    protected $xpath_channel='/rss/channel[1]';
-    protected $decorate_rules = Array(
-        'feed' => Array(
-            '/rss/attribute::version'  => "2.0",
-            '/rss/channel/lastBuildDate'  =>
-                Array('$d=new DateTime();return $d->format(DATE_RSS);'), // can't use create function in this context! yay!
-                    // also obv should be able to set a object serialization functions (but not here)
-        ),
-        'item' => Array(
-           // '::isPermalink' => 
-        ),
-    );
+    public function __construct($feed_array=array(),$version='1.0',$encoding='UTF-8')
+    {
+        parent::__construct($feed_array=array(),$version='1.0',$encoding='UTF-8');
+
+        $this->family='rss';
+        $this->xpath_item='/rss/channel/item';
+        $this->xpath_channel='/rss/channel[1]';
+        $this->decorate_rules = Array(
+            'feed' => Array(
+                '/rss/attribute::version'  => "2.0",
+                '/rss/channel/lastBuildDate'  =>
+                    Array(create_function('$obj','$d=new DateTime();return $d->format(DATE_RSS);'),
+                        // also obv should be able to set a object serialization functions (but not here)
+            ),
+            'item' => Array(
+            // '::isPermalink' => 
+            ),
+        );
+    }
 }

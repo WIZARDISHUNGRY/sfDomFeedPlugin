@@ -134,13 +134,8 @@ class sfDomStorage
         }
         elseif(count($rule)==1)
         {
-            // simple function-- via create_function -- this is really slow to do for every node fixme
-            $cb=create_function('$node',$rule[0]);
-            if($cb===FALSE)
-            {
-                throw new sfDomFeedException("DOM rule lambda compilation failed -- "
-                    ."$xpath_expr => \n".$rule[0]);
-            }
+            // callback is a function (passed as an array of a single item where the item is a function name)
+            $cb=$rule[0];
         }
         else
         {
