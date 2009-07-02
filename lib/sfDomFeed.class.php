@@ -38,7 +38,7 @@ abstract class sfDomFeed extends sfDomStorage
             $this->initialize($feed_array);
         }
 
-        if(! $dom->load($this->getFamilyTemplatePath(),LIBXML_NOERROR))
+        if(! $dom->load($this->genFamilyTemplatePath(),LIBXML_NOERROR))
             throw new sfDomFeedException("DOMDocument::load failed");
     }
 
@@ -68,7 +68,7 @@ abstract class sfDomFeed extends sfDomStorage
 
     // protected methods
     
-    protected function getFamilyTemplatePath() // todo not have a get/set name?
+    protected function genTemplatePath()
     {
         return $this->plugin_path."/data/templates/".$this->family.'.xml'; // todo make name more canonical with a prefix "root-rss"
     }
