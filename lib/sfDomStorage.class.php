@@ -114,7 +114,7 @@ abstract class sfDomStorage
             {
                 switch($object)
                 {
-                    case 'item':
+                    case 'item': //rename this?
                         $object=$this;
                         break;
                     case 'feed':
