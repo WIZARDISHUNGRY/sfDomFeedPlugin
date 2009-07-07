@@ -25,4 +25,11 @@ class sfDomFeedItem extends sfDomStorage
             $this->wrapped_object=$object;
         }
     }
+    public function isPermalink()
+    {
+
+        // for RSS implementation
+
+        return @parse_url($this->getLink())!==FALSE;
+    }
 }

@@ -29,7 +29,8 @@ class sfRssDomFeed extends sfDomFeed
                         // also obv should be able to set a object serialization functions (but not here)
             ),
             'item' => Array(
-            // '::isPermalink' => 
+                '/guid/@isPermaLink' =>
+                     Array('item','isPermalink'),
             ),
         );
         parent::__construct($feed_array=array(),$version='1.0',$encoding='UTF-8');
