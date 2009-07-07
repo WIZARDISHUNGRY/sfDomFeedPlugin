@@ -40,6 +40,14 @@ abstract class sfDomFeed extends sfDomStorage
 
         if(! $dom->load($this->genTemplatePath(),LIBXML_NOERROR))
             throw new sfDomFeedException("DOMDocument::load failed");
+
+        // prepend the xpath item expression to each of the item decorate rules
+        foreach($this->decorate_rules['item'] as $xpath => $rule)
+        {
+            $decorate_rules_item[$this->xpath_item.$xpath]=$rule;
+        }
+        $this->decorate_rules['item']=$decorate_rules_item;
+
     }
 
     public function initialize($data_array)
