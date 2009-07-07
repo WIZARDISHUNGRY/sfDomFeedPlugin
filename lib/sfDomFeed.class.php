@@ -101,8 +101,8 @@ abstract class sfDomFeed extends sfDomStorage
         foreach($this->feed_items as $feed_item)
         {
             $node = $template_item_node->cloneNode(TRUE);
-            $feed_item->decorate($node,$this->decorate_rules['item']);  // todo: parsing this once per item is SLOW 
             $items_parent->appendChild($node);
+            $feed_item->decorate($node,$this->decorate_rules['item']);  // todo: parsing this once per item is SLOW 
         }
 
         return $dom;
