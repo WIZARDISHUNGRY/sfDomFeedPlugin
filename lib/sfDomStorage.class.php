@@ -71,7 +71,16 @@ abstract class sfDomStorage
         
         foreach($rules as $xpath_expr => $rule)
         {
-            $nodes = $xp->query($xpath_expr);
+            $nodes = @$xp->query($xpath_expr);
+            if(! $nodes instanceof DOMNodeList)
+                throw new sfDomFeedException('Invalid XPath expression -- '.$xpath_expr);
+
+            // fixme how do we deal with no matches here
+            if($nodes->length==0)
+                throw new sfDomFeedException('Warning: nothing matched XPath expression -- '.$xpath_expr.
+                    ', document follows: '.$dom->saveXML());
+
+
             for($i = 0; $i < $nodes->length; $i++)
             {
                 $rule_node=$nodes->item($i);
