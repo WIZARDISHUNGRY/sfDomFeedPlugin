@@ -27,9 +27,9 @@ class sfDomFeedItem extends sfDomStorage
     }
     public function isPermalink()
     {
-
         // for RSS implementation
-
-        return @parse_url($this->getLink())!==FALSE;
+        $guid = $this->getGuid();
+        // todo: there needs to be a notion of binding guid and <link>
+        return $guid && parse_url($guid,PHP_URL_SCHEME)!=FALSE;
     }
 }

@@ -23,7 +23,13 @@ $feed_params = array(
     (
         'link'=>'http://wowthisworks.example.com/',
     )
-  )),
+  ),
+  new sfDomFeedItem(null,Array
+    (
+        'link'=>'http://dotwowork.example.com/',
+    )
+  )
+  ),
 );
 
 
