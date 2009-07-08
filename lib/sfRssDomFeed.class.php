@@ -25,7 +25,7 @@ class sfRssDomFeed extends sfDomFeed
             'feed' => Array(
                 '/rss/attribute::version'  => "2.0",
                 '/rss/channel/lastBuildDate'  =>
-                    Array(create_function('$obj','$d=new DateTime();return $d->format(DATE_RSS);')),
+                    Array(create_function('$obj','$d=new DateTime();return $d;')),
                         // also obv should be able to set a object serialization functions (but not here)
             ),
             'item' => Array(
@@ -34,5 +34,9 @@ class sfRssDomFeed extends sfDomFeed
             ),
         );
         parent::__construct($feed_array=array(),$version='1.0',$encoding='UTF-8');
+    }
+    public function serializeDateTime(DateTime $d)
+    {
+        return $d->format(DATE_RSS);
     }
 }

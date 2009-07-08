@@ -89,6 +89,10 @@ abstract class sfDomStorage
                     // rule is a callback array -- first argument has a few special values; see parseCallback();
                     $value=call_user_func_array($this->parseCallback($rule),Array(&$rule_node));
                     // callback takes the node to be decorated byRef so we decorate in the callback
+                    
+                    $value=$this->serializeObject($value);
+                    // RSS, Atom, etc can define their own serializers; useful for DateTime etc.
+
                     if($value)
                     {
                         $rule_node->nodeValue=$value;
@@ -159,5 +163,27 @@ abstract class sfDomStorage
         }
 
         return $cb;
+    }
+
+    public function serializeObject($object)
+    {
+        // not really an object but any type
+        // not really serialization but "converstion to xml character data"
+
+        $type = is_object($object)?get_class($object):gettype($object); // I know PHP.net warns about this but bite me.
+        // this doesn't behave the way things should with inherited obj types
+
+        $method='serialize'.sfInflector::camelize($type);
+
+        if(method_exists($this,$method))
+        {
+            return call_user_func(Array($this,$method),$object);
+        }
+        else
+        {
+            return $type; // implict string conversion will do
+        }
+
+        return;
     }
  }

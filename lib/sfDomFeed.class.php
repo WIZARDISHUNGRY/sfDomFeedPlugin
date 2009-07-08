@@ -42,6 +42,7 @@ abstract class sfDomFeed extends sfDomStorage
             throw new sfDomFeedException("DOMDocument::load failed");
 
         // prepend the xpath item expression to each of the item decorate rules
+        // fixme should this be done at rule parsetime?
         foreach($this->decorate_rules['item'] as $xpath => $rule)
         {
             $decorate_rules_item[$this->xpath_item.$xpath]=$rule;
