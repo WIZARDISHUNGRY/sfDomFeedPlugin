@@ -26,7 +26,6 @@ class sfRssDomFeed extends sfDomFeed
                 '/rss/attribute::version'  => "2.0",
                 '/rss/channel/lastBuildDate'  =>
                     Array(create_function('$obj','$d=new DateTime();return $d;')),
-                        // also obv should be able to set a object serialization functions (but not here)
             ),
             'item' => Array(
                 '/guid/@isPermaLink' =>
