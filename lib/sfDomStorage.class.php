@@ -51,7 +51,7 @@ abstract class sfDomStorage
         return $this;
     }
 
-    public function decorate(DOMNode $node,$rules=Array())
+    protected function decorate(sfDomStorage $root, DOMNode $node,$rules=Array())
     {
         $dom=$node->ownerDocument;
         $xp=new DOMXPath($dom);
@@ -87,7 +87,7 @@ abstract class sfDomStorage
                 if(is_array($rule))
                 {
                     // rule is a callback array -- first argument has a few special values; see parseCallback();
-                    $value=call_user_func_array($this->parseCallback($rule),Array(&$rule_node));
+                    $value=call_user_func_array($this->parseCallback($rule,$root),Array(&$rule_node));
                     // callback takes the node to be decorated byRef so we decorate in the callback
                     
                     $value=$this->serializeObject($value);
@@ -109,7 +109,7 @@ abstract class sfDomStorage
         return $node;
     }
 
-    protected function parseCallback($rule)
+    protected function parseCallback($rule,sfDomStorage $root)
     {
         if(count($rule)==2)
         {
@@ -122,7 +122,7 @@ abstract class sfDomStorage
                         $object=$this;
                         break;
                     case 'feed':
-                        $object=$this; // THIS SHOULD BE A REFERENCE TO THE PARENT FEED OBJECT FIXME
+                        $object=$root;
                         break;
                     default:
                         throw new sfDomFeedException("callback-style DOM rule has an unknown named object -- "
