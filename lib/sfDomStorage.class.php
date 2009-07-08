@@ -28,17 +28,17 @@ abstract class sfDomStorage
 
     public function __call($name, $arguments)
     {
-        if(strstr($name,'get')===0)
+        if(strpos($name,'get')===0)
         {
             $key=strtolower(preg_replace('/^get/','',$name,1));
             return $this->storage->get($key); //todo allow backfetching?
         }
-        elseif(strstr($name,'set')===0 && array_key_exists(0,$arguments))
+        elseif(strpos($name,'set')===0 && array_key_exists(0,$arguments))
         {
             $key=strtolower(preg_replace('/^set/','',$name,1));
             $this->storage->set($key,$arguments[0]);
         }
-        elseif(strstr($name,'has')===0)
+        elseif(strpos($name,'has')===0)
         {
             $key=strtolower(preg_replace('/^has/','',$name,1));
             return $this->storage->has($key);
