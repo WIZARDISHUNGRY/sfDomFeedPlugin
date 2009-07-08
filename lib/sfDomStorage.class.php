@@ -181,7 +181,7 @@ abstract class sfDomStorage
         }
         else
         {
-            return $type; // implict string conversion will do
+            return $object; // implict string conversion will do
         }
 
         return;
