@@ -186,4 +186,8 @@ abstract class sfDomStorage
 
         return;
     }
+    public function serializeBoolean($v)
+    {
+        return $v?'true':'false';
+    }
  }
