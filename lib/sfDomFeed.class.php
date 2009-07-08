@@ -108,7 +108,7 @@ abstract class sfDomFeed extends sfDomStorage
             $items[]=$node; // we could do some kind of sort key here todo
         }
         foreach($items as $node)
-            $items_parent->appendChild($item); // readd them to the dom
+            $items_parent->appendChild($node); // readd them to the dom
         
 
         return $dom;
