@@ -64,8 +64,11 @@ abstract class sfDomFeed extends sfDomStorage
 
     // simple methods to preserve compat with sfFeed2Plugin
 
-    public function toXml()
+    public function asXml()
     {
+        // I suppose presuming that we're emiting XML is a *little presumputous*
+        // the following probably should be refactored
+        $this->context->getResponse()->setContentType('application/'.$this->family.'+xml; charset='.$this->getEncoding());
         $dom=$this->dom->cloneNode(TRUE); // may be expensive to do a deep clone
         return $this->decorateDom($dom)->saveXML();
     }
