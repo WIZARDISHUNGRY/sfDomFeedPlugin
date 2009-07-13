@@ -69,7 +69,7 @@ class sfProxyParameterHolder extends sfParameterHolder
     }
 
 
-    protected function & proxy_get($name)
+    protected function proxy_get($name)
     {
         $callback=$this->proxy_has($name);
         if($callback)
