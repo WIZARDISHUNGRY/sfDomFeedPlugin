@@ -19,7 +19,7 @@ abstract class sfDomFeed extends sfDomStorage
 
     protected $dom; // DOMDocument
     protected $plugin_path;
-    protected $feed_items=Array();
+    protected $items=Array();
     protected $family; // e.g. RSS or Atom
     protected $xpath_item; // XPath expression for feed item
     protected $xpath_channel; // for the root channel
@@ -56,7 +56,7 @@ abstract class sfDomFeed extends sfDomStorage
         // special cases -- should be refactored to elsewhere?
         if(array_key_exists('feed_items',$data_array))
         {
-            $this->feed_items=$data_array['feed_items'];
+            $this->items=$data_array['feed_items'];
             unset($data_array['feed_items']);
         }
         return parent::initialize($data_array);
@@ -67,11 +67,83 @@ abstract class sfDomFeed extends sfDomStorage
     public function asXml()
     {
         // I suppose presuming that we're emiting XML is a *little presumputous*
+
         // the following probably should be refactored
         $this->context->getResponse()->setContentType('application/'.$this->family.'+xml; charset='.$this->getEncoding());
         $dom=$this->dom->cloneNode(TRUE); // may be expensive to do a deep clone
         return $this->decorateDom($dom)->saveXML();
     }
+
+    /**
+    * Retrieves the feed items.
+    *
+    * @return array an array of sfDomFeedItem objects
+    */
+    public function getItems()
+    {
+        return $this->items;
+    }
+ 
+    /**
+    * Defines the items of the feed.
+    *
+    * Caution: in previous versions, this method used to accept all kinds of objects.
+    * Now only objects of class sfDomFeedItem are allowed.
+    *
+    * @param array an array of sfDomFeedItem objects
+    *
+    * @return sfFeed the current sfFeed object
+    */
+    public function setItems($items = array())
+    {
+        $this->items = array();
+        $this->addItems($items);
+    
+        return $this;
+    }
+ 
+    /**
+    * Adds one item to the feed.
+    *
+    * @param sfDomFeedItem an item object
+    *
+    * @return sfFeed the current sfFeed object
+    */
+    public function addItem($item)
+    {
+        if (!($item instanceof sfDomFeedItem))
+        {
+        // the object is of the wrong class
+        $error = 'Parameter of addItem() is not of class sfDomFeedItem';
+    
+        throw new sfDomFeedException($error);
+        }
+        $item->setFeed($this);
+        $this->items[] = $item;
+    
+        return $this;
+    }
+    
+    /**
+    * Adds several items to the feed.
+    *
+    * @param array an array of sfDomFeedItem objects
+    *
+    * @return sfFeed the current sfFeed object
+    */
+    public function addItems($items)
+    {
+        if(is_array($items))
+        {
+        foreach($items as $item)
+        {
+            $this->addItem($item);
+        }
+        }
+    
+        return $this;
+    }
+
 
     public function fromXml($string)
     {
@@ -103,7 +175,7 @@ abstract class sfDomFeed extends sfDomStorage
         $items_parent->removeChild($template_item_node);
         $items=Array(); // holds dom nodes until they can be readded (simplifies xpath expressions)
 
-        foreach($this->feed_items as $feed_item)
+        foreach($this->items as $feed_item)
         {
             $node = $template_item_node->cloneNode(TRUE);
             $items_parent->appendChild($node);
