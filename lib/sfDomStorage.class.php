@@ -58,14 +58,17 @@ abstract class sfDomStorage
         for ($i = 0; $i < $node->childNodes->length; $i++)
         {
             $child=$node->childNodes->item($i);
-            $key=strtolower($child->nodeName);
-            if($this->storage->has($key)) // register mapping stuff here todo
+            if($child instanceof DOMElement)
             {
-                while($child->hasChildNodes())
-                    $child->removeChild($child->childNodes->item(0));
+                $key=strtolower($child->nodeName);
+                if($this->storage->has($key)) // register mapping stuff here todo
+                {
+                    while($child->hasChildNodes())
+                        $child->removeChild($child->childNodes->item(0));
 
-                $child->appendChild($dom->createTextNode($this->storage->get($key)));
-                // should be a way of doing this for other stuff todo
+                    $child->appendChild($dom->createTextNode($this->storage->get($key)));
+                    // should be a way of doing this for other stuff todo
+                }
             }
         }
         
