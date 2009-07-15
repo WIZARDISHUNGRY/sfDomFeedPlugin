@@ -41,6 +41,8 @@ abstract class sfDomFeed extends sfDomStorage
         if(! $dom->load($this->genTemplatePath(),LIBXML_NOERROR))
             throw new sfDomFeedException("DOMDocument::load failed");
 
+        $this->setEncoding($encoding); // todo encoding should be moved into a series of hash style rules
+
         // prepend the xpath item expression to each of the item decorate rules
         // fixme should this be done at rule parsetime?
         foreach($this->decorate_rules['item'] as $xpath => $rule)
@@ -160,6 +162,7 @@ abstract class sfDomFeed extends sfDomStorage
 
     protected function decorateDom(DOMDocument $dom)
     {
+        $dom->encoding=$this->getEncoding();
         $xp=new DOMXPath($dom);
         $channel = $xp->query($this->xpath_channel);
         $channel = $channel->item(0);
@@ -189,5 +192,12 @@ abstract class sfDomFeed extends sfDomStorage
         
 
         return $dom;
+    }
+
+    public function setEncoding($encoding)
+    {
+        // done to synchornize with wrapped DOMDocument
+        $this->dom->encoding=$encoding;
+        parent::setEncoding($encoding);
     }
 }
