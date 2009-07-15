@@ -118,7 +118,8 @@ abstract class sfDomFeed extends sfDomStorage
     
         throw new sfDomFeedException($error);
         }
-        $item->setFeed($this);
+        //$item->setFeed($this);
+        // not sure we need this 
         $this->items[] = $item;
     
         return $this;
