@@ -200,4 +200,8 @@ abstract class sfDomFeed extends sfDomStorage
         $this->dom->encoding=$encoding;
         parent::setEncoding($encoding);
     }
+    public function genUrl(DOMElement $url)
+    {
+      return sfContext::getInstance()->getController()->genUrl($url->textContent,true);
+    }
 }

@@ -45,9 +45,4 @@ class sfRssDomFeed extends sfDomFeed
     {
         return $d->format(DATE_RSS);
     }
-    public function genUrl(DOMElement $url)
-    {
-      // this is here to wrap the call to sfContext -- probably move into sfDomFeed todo
-      return sfContext::getInstance()->getController()->genUrl($url->textContent,true);
-    }
 }
