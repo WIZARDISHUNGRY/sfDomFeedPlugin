@@ -26,16 +26,28 @@ class sfRssDomFeed extends sfDomFeed
                 '/rss/attribute::version'  => "2.0",
                 '/rss/channel/lastBuildDate'  =>
                     Array(create_function('$obj','$d=new DateTime();return $d;')),
+                '/rss/channel/link' =>
+                     Array($this,'genUrl'),
             ),
             'item' => Array(
                 '/guid/@isPermaLink' =>
                      Array('item','isPermalink'),
+                '/link' =>
+                     Array($this,'genUrl'),
             ),
         );
+
         parent::__construct($feed_array=array(),$version='1.0',$encoding='UTF-8');
+        // if we move the xpath expression expansion in the parent constructor
+        // this function won't have to be called last todo
     }
     public function serializeDateTime(DateTime $d)
     {
         return $d->format(DATE_RSS);
+    }
+    public function genUrl(DOMElement $url)
+    {
+      // this is here to wrap the call to sfContext -- probably move into sfDomFeed todo
+      return sfContext::getInstance()->getController()->genUrl($url->textContent,true);
     }
 }
