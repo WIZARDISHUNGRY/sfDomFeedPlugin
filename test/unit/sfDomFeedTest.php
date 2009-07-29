@@ -9,14 +9,14 @@ $t = new lime_test(2, new lime_output_color());
 
 $feed_params = array(
   'title' => 'foo', 
-  'link' => 'bar', 
+  'link' => 'http://bar', 
   'description' => 'foobar baz',
   'language' => 'fr', 
   'authorName' => 'francois',
   'authorEmail' => 'francois@toto.com',
   'authorLink' => 'http://francois.toto.com',
   'subtitle' => 'this is foo bar',
-  'categories' => array('foo', 'bar'),
+  'categories' => array('apples', 'oranges'),
   'feedUrl' => 'http://www.example.com',
   'encoding' => 'UTF-16',
   'feed_items' => Array(new sfDomFeedItem(null,Array
