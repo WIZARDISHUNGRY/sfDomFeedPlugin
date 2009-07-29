@@ -26,10 +26,11 @@ abstract class sfDomFeed extends sfDomStorage
     protected $decorate_rules = Array( // feed is global; item is foreach item
         'feed'=>Array(),'item'=>Array()); // xpath query=>transform (string or array-callback)
 
-    public function __construct($feed_array=array(),$version='1.0',$encoding='UTF-8')
+    public function __construct($feed_array=array())
     {
+        $version='1.0';
         parent::__construct(); /// we call initialize() later so we don't need to pass feed_array in yet
-        $dom=$this->dom=new DOMDocument($version,$encoding);
+        $dom=$this->dom=new DOMDocument($version);
         $this->context=sfContext::getInstance();
         $this->plugin_path=realpath(dirname(__FILE__).'/../');
 
@@ -40,8 +41,6 @@ abstract class sfDomFeed extends sfDomStorage
 
         if(! $dom->load($this->genTemplatePath(),LIBXML_NOERROR))
             throw new sfDomFeedException("DOMDocument::load failed");
-
-        $this->setEncoding($encoding); // todo encoding should be moved into a series of hash style rules
 
         // prepend the xpath item expression to each of the item decorate rules
         // fixme should this be done at rule parsetime?
