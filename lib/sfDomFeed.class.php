@@ -169,12 +169,13 @@ abstract class sfDomFeed extends sfDomStorage
         $items_parent=$template_item_node->parentNode;
         $items_parent->removeChild($template_item_node);
         $items=Array(); // holds dom nodes until they can be readded (simplifies xpath expressions)
+        $item_rules=$this->prependItemXpath($this->decorate_rules['item'],$this->xpath_item);
 
         foreach($this->items as $feed_item)
         {
             $node = $template_item_node->cloneNode(TRUE);
             $items_parent->appendChild($node);
-            $feed_item->decorate($this,$node,$this->prependItemXpath($this->decorate_rules['item'],$this->xpath_item));
+            $feed_item->decorate($this,$node,$item_rules);
             $items_parent->removeChild($node); // so the xpath expressions for template items work identically in this context
             $items[]=$node; // we could do some kind of sort key here todo
         }
