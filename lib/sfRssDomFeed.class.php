@@ -16,33 +16,31 @@
  */
 class sfRssDomFeed extends sfDomFeed 
 {
-    public function __construct($feed_array=array(),$version='1.0',$encoding='UTF-8')
-    {
-        $this->family='rss';
-        $this->xpath_item='/rss/channel/item';
-        $this->xpath_channel='/rss/channel[1]';
-        $this->decorate_rules = Array(
-            'feed' => Array(
-                '/rss/attribute::version'  => "2.0",
-                '/rss/channel/lastBuildDate'  =>
-                    Array(create_function('$obj','$d=new DateTime();return $d;')),
-                '/rss/channel/link' =>
-                     Array($this,'genUrl'),
-            ),
-            'item' => Array(
-                '/guid/@isPermaLink' =>
-                     Array('item','isPermalink'),
-                '/link' =>
-                     Array($this,'genUrl'),
-            ),
-        );
+  protected $family='rss';
+  protected $xpath_item='/rss/channel/item';
+  protected $xpath_channel='/rss/channel[1]';
 
-        parent::__construct($feed_array);
-        // if we move the xpath expression expansion in the parent constructor
-        // this function won't have to be called last todo
-    }
-    public function serializeDateTime(DateTime $d)
-    {
-        return $d->format(DATE_RSS);
-    }
+  public function __construct($feed_array=array(),$version='1.0',$encoding='UTF-8')
+  { 
+      parent::__construct($feed_array);
+      $this->decorate_rules = Array(
+          'feed' => Array(
+              '/rss/attribute::version'  => "2.0",
+              '/rss/channel/lastBuildDate'  =>
+                  Array(create_function('$obj','$d=new DateTime();return $d;')),
+              '/rss/channel/link' =>
+                    Array($this,'genUrl'),
+          ),
+          'item' => Array(
+              '/guid/@isPermaLink' =>
+                    Array('item','isPermalink'),
+              '/link' =>
+                    Array($this,'genUrl'),
+          ),
+      );
+  }
+  public function serializeDateTime(DateTime $d)
+  {
+      return $d->format(DATE_RSS);
+  }
 }
