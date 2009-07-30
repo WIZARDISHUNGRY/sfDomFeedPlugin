@@ -42,14 +42,6 @@ abstract class sfDomFeed extends sfDomStorage
         if(! $dom->load($this->genTemplatePath(),LIBXML_NOERROR))
             throw new sfDomFeedException("DOMDocument::load failed");
 
-        // prepend the xpath item expression to each of the item decorate rules
-        // fixme should this be done at rule parsetime?
-        foreach($this->decorate_rules['item'] as $xpath => $rule)
-        {
-            $decorate_rules_item[$this->xpath_item.$xpath]=$rule;
-        }
-        $this->decorate_rules['item']=$decorate_rules_item;
-
     }
 
     public function initialize($data_array)
@@ -182,7 +174,7 @@ abstract class sfDomFeed extends sfDomStorage
         {
             $node = $template_item_node->cloneNode(TRUE);
             $items_parent->appendChild($node);
-            $feed_item->decorate($this,$node,$this->decorate_rules['item']);  // todo: parsing this once per item is SLOW 
+            $feed_item->decorate($this,$node,$this->prependItemXpath($this->decorate_rules['item'],$this->xpath_item));  // todo: parsing this once per item is SLOW 
             $items_parent->removeChild($node); // so the xpath expressions for template items work identically in this context
             $items[]=$node; // we could do some kind of sort key here todo
         }
@@ -191,6 +183,17 @@ abstract class sfDomFeed extends sfDomStorage
         
 
         return $dom;
+    }
+
+    protected function prependItemXpath($rules,$prefix)
+    {
+        // prepend an xpath expression to each of the decorate rules
+        $prepended_rules=array();
+        foreach($rules as $xpath => $rule)
+        {
+            $prepended_rules[$prefix.$xpath]=$rule;
+        }
+        return $prepended_rules;
     }
 
     public function setEncoding($encoding)
