@@ -37,7 +37,7 @@ class sfRssDomFeed extends sfDomFeed
             ),
         );
 
-        parent::__construct($feed_array=array(),$version='1.0',$encoding='UTF-8');
+        parent::__construct($feed_array);
         // if we move the xpath expression expansion in the parent constructor
         // this function won't have to be called last todo
     }
