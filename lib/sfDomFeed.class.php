@@ -30,7 +30,9 @@ abstract class sfDomFeed extends sfDomStorage
     {
         $version='1.0';
         parent::__construct(); /// we call initialize() later so we don't need to pass feed_array in yet
-        $dom=$this->dom=new DOMDocument($version);
+        $encoding='UTF-8'; // sensible default
+        $dom=$this->dom=new DOMDocument($version,$encoding);
+        $this->setEncoding($encoding); // needed to avoid trying to set encoding to ''
         $this->context=sfContext::getInstance();
         $this->plugin_path=realpath(dirname(__FILE__).'/../');
 
@@ -62,6 +64,7 @@ abstract class sfDomFeed extends sfDomStorage
         // I suppose presuming that we're emiting XML is a *little presumputous*
 
         // the following probably should be refactored
+        // todo don't send encoding if we're going to send an html error message
         $this->context->getResponse()->setContentType('application/'.$this->family.'+xml; charset='.$this->getEncoding());
         $dom=$this->dom->cloneNode(TRUE); // may be expensive to do a deep clone
         return $this->decorateDom($dom)->saveXML();
