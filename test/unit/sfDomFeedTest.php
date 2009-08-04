@@ -36,3 +36,4 @@ $feed_params = array(
 $feed=new sfRssDomFeed();
 $t->isa_ok($feed->initialize($feed_params), 'sfRssDomFeed', 'initialize() returns the current feed object');
 $t->isa_ok($feed->asXml(), 'string', 'asXml() outputs a string');
+echo $feed->asXml();
