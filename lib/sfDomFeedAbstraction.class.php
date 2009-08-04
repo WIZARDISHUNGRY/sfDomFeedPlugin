@@ -14,7 +14,10 @@
  * @package    sfDomFeed
  * @author     Jon Williams <jwilliams@limewire.com>
  */
-abstract class sfDomFeedExtension extends sfDomFeedAbstraction
+abstract class sfDomFeedAbstraction
 {
 
+    protected $family; // e.g. RSS or Atom // todo does this go here or in sfDomFeed?
+    protected $decorate_rules = Array( // feed is global; item is foreach item
+        'feed'=>Array(),'item'=>Array()); // xpath query=>transform (string or array-callback)
 }

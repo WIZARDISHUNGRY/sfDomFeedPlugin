@@ -36,13 +36,14 @@ abstract class sfDomStorage
         elseif(strpos($name,'set')===0 && array_key_exists(0,$arguments))
         {
             $key=strtolower(preg_replace('/^set/','',$name,1));
-            $this->storage->set($key,$arguments[0]);
+            return $this->storage->set($key,$arguments[0]); // forgot the return here
         }
         elseif(strpos($name,'has')===0)
         {
             $key=strtolower(preg_replace('/^has/','',$name,1));
             return $this->storage->has($key);
         }
+        return sfMixer::callMixins(); // We're going to need mixin support
     }
 
     public function initialize($data_array)

@@ -14,7 +14,7 @@
  * @package    sfDomFeed
  * @author     Jon Williams <jwilliams@limewire.com>
  */
-abstract class sfDomFeed extends sfDomStorage
+abstract class sfDomFeed extends sfDomStorage /* , sfDomFeedAbstraction */
 {
 
     protected $dom; // DOMDocument
@@ -26,7 +26,7 @@ abstract class sfDomFeed extends sfDomStorage
     protected $decorate_rules = Array( // feed is global; item is foreach item
         'feed'=>Array(),'item'=>Array()); // xpath query=>transform (string or array-callback)
 
-    public function __construct($feed_array=array())
+    public function __construct($feed_array=array(),$extensions=array())
     {
         $version='1.0';
         parent::__construct(); /// we call initialize() later so we don't need to pass feed_array in yet
@@ -211,3 +211,5 @@ abstract class sfDomFeed extends sfDomStorage
       return sfContext::getInstance()->getController()->genUrl($url->textContent,true);
     }
 }
+
+// sfMixer::register('sfDomFeed'); // todo add methods!
