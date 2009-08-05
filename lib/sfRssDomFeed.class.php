@@ -20,9 +20,9 @@ class sfRssDomFeed extends sfDomFeed
   protected $xpath_item='/rss/channel/item';
   protected $xpath_channel='/rss/channel[1]';
 
-  public function __construct($feed_array=array(),$version='1.0',$encoding='UTF-8')
+  public function __construct($feed_array=array(),$extensions=array())
   { 
-      parent::__construct($feed_array);
+      parent::__construct($feed_array,$extensions);
       $this->decorate_rules = Array(
           'feed' => Array(
               '/rss/attribute::version'  => "2.0",
