@@ -45,6 +45,8 @@ abstract class sfDomFeed extends sfDomStorage /* , sfDomFeedAbstraction */
             $class_name=$prefix.ucfirst($extension); // todo change this to camelize
             $extension = new $class_name;
             if(!$extension instanceof sfDomFeedExtension) throw new sfException("$class_name is not a sfDomFeedExtension");
+            // unfortunately ^ class_exists() is useless here; it will error instead of exception.
+            
             $this->extensions[]=$extension;
         }
 
