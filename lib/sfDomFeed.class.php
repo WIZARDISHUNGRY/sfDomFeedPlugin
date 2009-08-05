@@ -26,6 +26,8 @@ abstract class sfDomFeed extends sfDomStorage /* , sfDomFeedAbstraction */
     protected $decorate_rules = Array( // feed is global; item is foreach item
         'feed'=>Array(),'item'=>Array()); // xpath query=>transform (string or array-callback)
 
+    protected $extensions; // instances of sfDomFeedExtension
+
     public function __construct($feed_array=array(),$extensions=array())
     {
         $version='1.0';
@@ -35,6 +37,16 @@ abstract class sfDomFeed extends sfDomStorage /* , sfDomFeedAbstraction */
         $this->setEncoding($encoding); // needed to avoid trying to set encoding to ''
         $this->context=sfContext::getInstance();
         $this->plugin_path=realpath(dirname(__FILE__).'/../');
+
+        $prefix='sfDomFeedExtension';
+        $this->extensions=Array();
+        foreach($extensions as $extension)
+        {
+            $class_name=$prefix.ucfirst($extension); // todo change this to camelize
+            $extension = new $class_name;
+            if(!$extension instanceof sfDomFeedExtension) throw new sfException("$class_name is not a sfDomFeedExtension");
+            $this->extensions[]=$extension;
+        }
 
         if($feed_array)
         {
