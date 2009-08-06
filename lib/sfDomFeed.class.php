@@ -174,7 +174,7 @@ abstract class sfDomFeed extends sfDomStorage /* , sfDomFeedAbstraction */
         $xp=new DOMXPath($dom);
         $channel = $xp->query($this->xpath_channel);
         $channel = $channel->item(0);
-        $this->decorate($this,$channel,$this->decorate_rules['feed']);
+        $this->decorate($this,$channel,$this->fetchRulesFeed());
 
         $item_nodes = $xp->query($this->xpath_item);
 
@@ -186,7 +186,7 @@ abstract class sfDomFeed extends sfDomStorage /* , sfDomFeedAbstraction */
         $items_parent=$template_item_node->parentNode;
         $items_parent->removeChild($template_item_node);
         $items=Array(); // holds dom nodes until they can be readded (simplifies xpath expressions)
-        $item_rules=$this->prependItemXpath($this->decorate_rules['item'],$this->xpath_item);
+        $item_rules=$this->prependItemXpath($this->fetchRulesItem(),$this->xpath_item);
 
         foreach($this->items as $feed_item)
         {
@@ -224,6 +224,27 @@ abstract class sfDomFeed extends sfDomStorage /* , sfDomFeedAbstraction */
     {
       return sfContext::getInstance()->getController()->genUrl($url->textContent,true);
     }
+
+  /*
+            sfDomFeedAbstraction methods
+  */
+  public function fetchRulesItem()
+  {
+    $rules = sfMixer::callMixins();
+    if(!is_array($rules)) throw new sfDomFeedException("assertation failed");
+    foreach($this->extensions as $extension)
+      $rules = array_merge($rules,$extension->fetchRulesItem());
+    return $rules;
+  }
+  public function fetchRulesFeed()
+  {
+    $rules = sfMixer::callMixins();
+    if(!is_array($rules)) throw new sfDomFeedException("assertation failed ".gettype($rules));
+    foreach($this->extensions as $extension)
+      $rules = array_merge($rules,$extension->fetchRulesFeed());
+    return $rules;
+  }
 }
 
-// sfMixer::register('sfDomFeed'); // todo add methods!
+sfMixer::register('sfDomFeed',Array('sfDomFeedAbstraction','fetchRulesFeed'));
+sfMixer::register('sfDomFeed',Array('sfDomFeedAbstraction','fetchRulesItem'));

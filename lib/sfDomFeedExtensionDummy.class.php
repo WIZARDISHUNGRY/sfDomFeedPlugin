@@ -16,5 +16,14 @@
  */
 class sfDomFeedExtensionDummy extends sfDomFeedExtension
 {
-
+  public function __construct()
+  { 
+      $this->decorate_rules = Array(
+          'feed' => Array(
+              '/rss/attribute::version'  => "2.1", // testing to make sure this works
+          ),
+          'item' => Array(
+          ),
+      );
+  }
 }
