@@ -14,7 +14,7 @@
  * @package    sfDomFeed
  * @author     Jon Williams <jwilliams@limewire.com>
  */
-abstract class sfDomFeed extends sfDomStorage /* , sfDomFeedAbstraction */
+class sfDomFeed extends sfDomStorage /* , sfDomFeedAbstraction */
 {
 
     protected $dom; // DOMDocument
@@ -230,15 +230,15 @@ abstract class sfDomFeed extends sfDomStorage /* , sfDomFeedAbstraction */
   */
   public function fetchRulesItem()
   {
-    $rules = sfMixer::callMixins();
-    if(!is_array($rules)) throw new sfDomFeedException("assertation failed");
+    $rules =  $this->decorate_rules['item'];  // sfMixer::callMixins(); // since the mixin approach breaks maybe this needs to be an interface todo
+    if(!is_array($rules)) throw new sfDomFeedException("assertation failed ".gettype($rules));
     foreach($this->extensions as $extension)
       $rules = array_merge($rules,$extension->fetchRulesItem());
     return $rules;
   }
   public function fetchRulesFeed()
   {
-    $rules = sfMixer::callMixins();
+    $rules =  $this->decorate_rules['feed'];  // sfMixer::callMixins(); // since the mixin approach breaks maybe this needs to be an interface todo
     if(!is_array($rules)) throw new sfDomFeedException("assertation failed ".gettype($rules));
     foreach($this->extensions as $extension)
       $rules = array_merge($rules,$extension->fetchRulesFeed());
@@ -246,5 +246,6 @@ abstract class sfDomFeed extends sfDomStorage /* , sfDomFeedAbstraction */
   }
 }
 
-sfMixer::register('sfDomFeed',Array('sfDomFeedAbstraction','fetchRulesFeed'));
-sfMixer::register('sfDomFeed',Array('sfDomFeedAbstraction','fetchRulesItem'));
+// This doesn't work :(
+//sfMixer::register('sfDomFeed',Array('sfDomFeedAbstraction','fetchRulesFeed'));
+//sfMixer::register('sfDomFeed',Array('sfDomFeedAbstraction','fetchRulesItem'));
