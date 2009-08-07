@@ -46,6 +46,21 @@ abstract class sfDomStorage
         return sfMixer::callMixins(); // We're going to need mixin support
     }
 
+    public function has($name)
+    {
+      return $this->storage->has($name);
+    }
+
+    public function get($name)
+    {
+      return $this->storage->get($name);
+    }
+
+    public function set($name,$value)
+    {
+      return $this->storage->set($name,$value);
+    }
+
     public function initialize($data_array)
     {
         $this->storage->add($data_array);
