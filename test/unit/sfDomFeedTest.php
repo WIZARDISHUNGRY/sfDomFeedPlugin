@@ -26,7 +26,10 @@ $feed_params = array(
   ),
   new sfDomFeedItem(null,Array
     (
+        'title'=>'Do titles work?',
         'link'=>'http://dotwowork.example.com/',
+        'enclosure'=>new sfDomFeedEnclosure(Array(
+        )),
     )
   )
   ),

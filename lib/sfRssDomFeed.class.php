@@ -36,6 +36,8 @@ class sfRssDomFeed extends sfDomFeed
                     Array('item','isPermalink'),
               '/link' =>
                     Array($this,'genUrl'),
+              '/enclosure' =>
+                  Array('item','genEnclosure')
           ),
       );
   }
@@ -43,4 +45,5 @@ class sfRssDomFeed extends sfDomFeed
   {
       return $d->format(DATE_RSS);
   }
+
 }

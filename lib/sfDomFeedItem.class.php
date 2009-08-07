@@ -32,4 +32,17 @@ class sfDomFeedItem extends sfDomStorage
         // todo: there needs to be a notion of binding guid and <link>
         return $guid && parse_url($guid,PHP_URL_SCHEME)!=FALSE;
     }
+  public function genEnclosure(DOMElement $enclosure)
+  {
+    if(!$this->has('enclosure'))
+      $enclosure->parentNode->removeChild($enclosure);
+    else
+    {
+      // we're going to code this for rss only right now todo
+      // we need subclasses of sfDomFeed to has itemFactories todo
+      
+    }
+
+    return null; // modifying the DOMElement via pass by value
+  }
 }

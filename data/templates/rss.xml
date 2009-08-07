@@ -14,6 +14,7 @@
 <link>http://www.domain.com/link.htm</link>
 <guid isPermaLink="false"> 1102345</guid>
 <pubDate>Tue, 29 Aug 2006 09:00:00 -0400</pubDate>
+<enclosure url="http://example.com/file.mp3" length="123456789" type="audio/mpeg" />
 </item>
 
 </channel>
