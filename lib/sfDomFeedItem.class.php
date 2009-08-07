@@ -35,12 +35,25 @@ class sfDomFeedItem extends sfDomStorage
   public function genEnclosure(DOMElement $enclosure)
   {
     if(!$this->has('enclosure'))
+    {
       $enclosure->parentNode->removeChild($enclosure);
+    }
     else
     {
+      $enclosure=$this->get('enclosure');
       // we're going to code this for rss only right now todo
       // we need subclasses of sfDomFeed to has itemFactories todo
-      
+      foreach($enclosure->attributes as $attr_name => $attr_node)
+      {
+        if($enclosure->has($attr_name))
+        {
+          $enclosure->setAttribute($attr_name,$enclosure->get($attr_name));
+        }
+        else
+        {
+          $enclosure->removeChild($attr_node);
+        }
+      }
     }
 
     return null; // modifying the DOMElement via pass by value

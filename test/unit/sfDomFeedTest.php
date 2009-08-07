@@ -22,13 +22,17 @@ $feed_params = array(
   'feed_items' => Array(new sfDomFeedItem(null,Array
     (
         'link'=>'http://wowthisworks.example.com/',
+        'enclosure'=>new sfDomFeedEnclosure(null,Array(
+          'url'=>'http://assets.example.com/hello.wma',
+        )),
     )
   ),
   new sfDomFeedItem(null,Array
     (
         'title'=>'Do titles work?',
         'link'=>'http://dotwowork.example.com/',
-        'enclosure'=>new sfDomFeedEnclosure(Array(
+        'enclosure'=>new sfDomFeedEnclosure(null,Array(
+          'url'=>'http://assets.example.com/foobar.wma',
         )),
     )
   )

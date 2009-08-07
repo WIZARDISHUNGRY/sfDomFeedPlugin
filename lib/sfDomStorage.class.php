@@ -79,11 +79,15 @@ abstract class sfDomStorage
                 $key=strtolower($child->nodeName);
                 if($this->storage->has($key)) // register mapping stuff here todo
                 {
+                  $value=$this->storage->get($key);
+                  if(is_string($value)) // fixme, probably should let everything through but objects here
+                  {
                     while($child->hasChildNodes())
                         $child->removeChild($child->childNodes->item(0));
 
                     $child->appendChild($dom->createTextNode($this->storage->get($key)));
                     // should be a way of doing this for other stuff todo
+                  }
                 }
             }
         }
