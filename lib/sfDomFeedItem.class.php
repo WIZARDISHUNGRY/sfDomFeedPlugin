@@ -45,9 +45,8 @@ class sfDomFeedItem extends sfDomStorage
       // we need subclasses of sfDomFeed to has itemFactories todo
       $remove=Array(); // list of attribute nodes to remove after loop -- php needs iterators
       $add=Array(); // worst
-      for($i=0;$enclosure_node->attributes->item($i)!=NULL;$i++ )
+      for($i=0;$i<$enclosure_node->attributes->length;$i++)
       {
-        echo "$attr->name ! \n";
         $attr=$enclosure_node->attributes->item($i);
         if($enclosure->has($attr->name))
         {
@@ -57,9 +56,9 @@ class sfDomFeedItem extends sfDomStorage
         {
           $remove[]=$attr->name;
         }
-        foreach($remove as $name)$enclosure_node->removeAttribute($name);
-        foreach($add as $name=>$value)$enclosure_node->setAttribute($name,$value);
       }
+      foreach($remove as $name)$enclosure_node->removeAttribute($name);
+      foreach($add as $name=>$value)$enclosure_node->setAttribute($name,$value);
     }
 
     return null; // modifying the DOMElement via pass by value
