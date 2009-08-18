@@ -22,7 +22,7 @@ abstract class sfDomStorage
     {
         // semantically which should happen first here?
         // perhaps we should test $storage to see if any of these are overriding it
-        $this->storage=new sfProxyParameterHolder($object);
+        $this->storage=new sfSynonymParameterHolder($object);
         $this->initialize($data_array);
     }
 

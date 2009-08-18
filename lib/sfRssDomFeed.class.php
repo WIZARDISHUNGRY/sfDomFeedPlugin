@@ -45,5 +45,4 @@ class sfRssDomFeed extends sfDomFeed
   {
       return $d->format(DATE_RSS);
   }
-
 }

@@ -35,4 +35,15 @@ class sfSynonymParameterHolder extends sfProxyParameterHolder
       ),
     );
   }
+
+
+  public function has($name)
+  {
+    if(parent::has($name) return true;
+    foreach(self::$dictionary->get($name,Array() as $name)
+    {
+      if(parent::has($name)) return true;
+    }
+    return false;
+  }
 }
