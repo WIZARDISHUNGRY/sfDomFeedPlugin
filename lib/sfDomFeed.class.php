@@ -224,6 +224,16 @@ class sfDomFeed extends sfDomStorage /* , sfDomFeedAbstraction */
     {
       return sfContext::getInstance()->getController()->genUrl($url->textContent,true);
     }
+  
+  function genLastBuildDate(DOMElement $lastBuildDate)
+  {
+    foreach($this->items as $item)
+    {
+      
+    }
+  }
+
+
 
   /*
             sfDomFeedAbstraction methods
