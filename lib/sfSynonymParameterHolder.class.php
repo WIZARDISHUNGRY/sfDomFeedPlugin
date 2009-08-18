@@ -36,14 +36,30 @@ class sfSynonymParameterHolder extends sfProxyParameterHolder
     );
   }
 
-
   public function has($name)
   {
-    if(parent::has($name) return true;
-    foreach(self::$dictionary->get($name,Array() as $name)
+    if(parent::has($name)) return true;
+    foreach(self::$dictionary->get($name,Array()) as $name)
     {
       if(parent::has($name)) return true;
     }
     return false;
+  }
+
+  public function get($name,$default)
+  {
+    $val = $this->proxy_get($name,$default);
+    if($val!==NULL) // FALSE errors will return here -- see proxy_get()
+        return $val;
+
+    $oname=$name; // no nested scope
+
+    foreach(self::$dictionary->get($name,Array()) as $name)
+    {
+      $val = $this->proxy_get($name,$default);
+      if($val!==NULL) // FALSE errors will return here -- see proxy_get()
+          return $val;
+    }
+    return parent::get($oname,$default); // this will duplicate some code by not being able to call parent(2)::
   }
 }
