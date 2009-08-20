@@ -47,7 +47,7 @@ class sfSynonymParameterHolder extends sfProxyParameterHolder
     return false;
   }
 
-  public function get($name,$default)
+  public function & get($name,$default=null)
   {
     $val = $this->proxy_get($name,$default);
     if($val!==NULL) // FALSE errors will return here -- see proxy_get()
