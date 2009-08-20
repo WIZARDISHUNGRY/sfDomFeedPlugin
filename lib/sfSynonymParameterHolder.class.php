@@ -29,6 +29,7 @@ class sfSynonymParameterHolder extends sfProxyParameterHolder
   public function loadDictionary()
   {
    $plugin_path=realpath(dirname(__FILE__).'/../'); 
+   // todo this is static but since this is just a sfDomFeedPlugin thng its cool
     return Array(
       'length'=>Array(
         'size',
