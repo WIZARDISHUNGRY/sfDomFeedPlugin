@@ -42,7 +42,7 @@ class sfDomFeed extends sfDomStorage /* , sfDomFeedAbstraction */
         $this->extensions=Array();
         foreach($extensions as $extension)
         {
-            $class_name=$prefix.ucfirst($extension); // todo change this to camelize
+            $class_name=$prefix.sfInflector::camelize($extension);
             $extension = new $class_name;
             if(!$extension instanceof sfDomFeedExtension) throw new sfException("$class_name is not a sfDomFeedExtension");
             // unfortunately ^ class_exists() is useless here; it will error instead of exception.
