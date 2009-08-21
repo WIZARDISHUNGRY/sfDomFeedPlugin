@@ -34,6 +34,9 @@ class sfSynonymParameterHolder extends sfProxyParameterHolder
       'length'=>Array(
         'size',
       ),
+      'type'=>Array(
+        'mime_type',
+      ),
     );
   }
 
