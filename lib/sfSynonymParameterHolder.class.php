@@ -30,6 +30,7 @@ class sfSynonymParameterHolder extends sfProxyParameterHolder
   {
    $plugin_path=realpath(dirname(__FILE__).'/../'); 
    // todo this is static but since this is just a sfDomFeedPlugin thng its cool
+   // todo import synonyms from sfDomFeed2Plugin
     return Array(
       'length'=>Array(
         'size',
