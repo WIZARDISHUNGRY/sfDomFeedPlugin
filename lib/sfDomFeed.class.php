@@ -63,6 +63,7 @@ class sfDomFeed extends sfDomStorage /* , sfDomFeedAbstraction */
     public function initialize($data_array)
     {
         // special cases -- should be refactored to elsewhere?
+        // in particular where should array k=>v params be parsed
         if(array_key_exists('feed_items',$data_array))
         {
             $this->items=$data_array['feed_items'];
