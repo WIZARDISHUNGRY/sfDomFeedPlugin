@@ -77,7 +77,7 @@ abstract class sfDomStorage
             if($child instanceof DOMElement)
             {
                 $key=strtolower($child->nodeName);
-                if($this->storage->has($key)) // register mapping stuff here todo
+                if($this->storage->has($key))
                 {
                   $value=$this->storage->get($key);
                   if(is_string($value)) // fixme, probably should let everything through but objects here
